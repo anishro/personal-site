@@ -1,10 +1,10 @@
 # personal-site 
 
-To intall Dependencies
+<h1>To intall Dependencies</h1>
 
-<h1>Npm Install</h1>
+npm Install
 
 
-Run with :- 
+<h2>Run with :-</h2> 
 
 <b>npm run dev</b>
