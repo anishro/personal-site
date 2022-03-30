@@ -7,4 +7,4 @@ To intall Dependencies
 
 Run with :- 
 
-<u><b>npm run dev</b></u>
+<b>npm run dev</b>
