@@ -8,10 +8,10 @@ import gsap from "gsap";
 const gui = new datGui.GUI();
 const world = {
   plane: {
-    width: 400,
-    height: 400,
-    widthSegments: 50,
-    heightSegments: 50,
+    width: 1000,
+    height: 800,
+    widthSegments: 100,
+    heightSegments: 100,
   },
 };
 
@@ -45,10 +45,10 @@ function genratePlane() {
   );
 }
 //add gui controls for planeMesh
-gui.add(world.plane, "height", 1, 1000).onChange(genratePlane);
-gui.add(world.plane, "width", 1, 1000).onChange(genratePlane);
-gui.add(world.plane, "widthSegments", 1, 100).onChange(genratePlane);
-gui.add(world.plane, "heightSegments", 1, 100).onChange(genratePlane);
+// gui.add(world.plane, "height", 1, 1000).onChange(genratePlane);
+// gui.add(world.plane, "width", 1, 1000).onChange(genratePlane);
+// gui.add(world.plane, "widthSegments", 1, 100).onChange(genratePlane);
+// gui.add(world.plane, "heightSegments", 1, 100).onChange(genratePlane);
 
 const raycaster = new THREE.Raycaster();
 const scene = new THREE.Scene();
@@ -101,7 +101,7 @@ scene.add(planeMesh);
 
 const colors = [];
 for (let i = 0; i < planeMesh.geometry.attributes.position.count; i++) {
-  colors.push(0, 0, 0);
+  colors.push(0.12, 0.24, 0.84);
 }
 
 planeMesh.geometry.setAttribute(
@@ -109,22 +109,42 @@ planeMesh.geometry.setAttribute(
   new THREE.BufferAttribute(new Float32Array(colors), 3)
 );
 
-const light = new THREE.DirectionalLight(0xffffff, 1, 100);
-light.position.set(0, 1, 1);
+const light = new THREE.DirectionalLight(0xffff00, 1, 100);
+light.position.set(0, 2, 1);
 scene.add(light);
-
+const pointLight = new THREE.DirectionalLight(0xffff);
+pointLight.position.set(5, 5, 5);
+scene.add(pointLight);
 const backlight = new THREE.DirectionalLight(0xffffff, 1, 100);
 backlight.position.set(0, 0, -1);
 scene.add(backlight);
+
+function addStar() {
+  const geometry = new THREE.SphereGeometry(0.25, 24, 24);
+  const material = new THREE.MeshStandardMaterial({ color: 0x2B65EC });
+  const star = new THREE.Mesh(geometry, material);
+
+  const [x, y, z] = Array(3)
+    .fill()
+    .map(() => THREE.MathUtils.randFloatSpread(100));
+
+  star.position.set(x, y, z);
+  scene.add(star);
+}
+
+Array(200).fill().forEach(addStar);
 
 const mouse = {
   x: undefined,
   y: undefined,
 };
+
 let frame = 0;
+
 function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
+  addStar();
   frame += 0.01;
   for (
     let i = 0;
@@ -162,9 +182,9 @@ function animate() {
     //updates on Hover
     color.needsUpdate = true;
     const intialcolor = {
-      r: 0.81,
-      g: 0.54,
-      b: 0.74,
+      r: 0.12,
+      g: 0.24,
+      b: 0.84,
     };
     const hoverColor = {
       r: 0.1,
