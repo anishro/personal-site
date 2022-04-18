@@ -109,7 +109,7 @@ planeMesh.geometry.setAttribute(
   new THREE.BufferAttribute(new Float32Array(colors), 3)
 );
 
-const light = new THREE.DirectionalLight(0xffff00, 1, 100);
+const light = new THREE.DirectionalLight(0xffc922, 2);
 light.position.set(0, 2, 1);
 scene.add(light);
 const pointLight = new THREE.DirectionalLight(0xffff);
@@ -126,7 +126,7 @@ function addStar() {
 
   const [x, y, z] = Array(3)
     .fill()
-    .map(() => THREE.MathUtils.randFloatSpread(100));
+    .map(() => THREE.MathUtils.randFloatSpread(200));
 
   star.position.set(x, y, z);
   scene.add(star);
