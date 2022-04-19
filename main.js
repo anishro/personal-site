@@ -2,6 +2,7 @@
 import "./style.css";
 import * as THREE from "three";
 import datGui from "dat.gui";
+import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import gsap from "gsap";
 
@@ -109,7 +110,7 @@ planeMesh.geometry.setAttribute(
   new THREE.BufferAttribute(new Float32Array(colors), 3)
 );
 
-const light = new THREE.DirectionalLight(0xffc922, 2);
+const light = new THREE.DirectionalLight(0xffc922, 2.8);
 light.position.set(0, 2, 1);
 scene.add(light);
 const pointLight = new THREE.DirectionalLight(0xffff);
@@ -126,11 +127,21 @@ function addStar() {
 
   const [x, y, z] = Array(3)
     .fill()
-    .map(() => THREE.MathUtils.randFloatSpread(200));
+    .map(() => THREE.MathUtils.randFloatSpread(300));
 
   star.position.set(x, y, z);
   scene.add(star);
 }
+
+const ballgq = new THREE.Mesh(
+  new RoundedBoxGeometry(4, 4, 4, 2, 1),
+  new THREE.MeshBasicMaterial({ color: 0x0ff00 })
+);
+
+scene.add(ballgq);
+ballgq.position.z = 30;
+ballgq.position.setX(-10);
+ballgq.position.setY(-50);
 
 Array(200).fill().forEach(addStar);
 
@@ -139,12 +150,29 @@ const mouse = {
   y: undefined,
 };
 
+function moveCamera() {
+  const t = document.body.getBoundingClientRect().top;
+  // ballgq.rotation.x += 0.05;
+  // ballgq.rotation.y += 0.075;
+  // ballgq.rotation.z += 0.05;
+
+  camera.position.z = t * -0.01;
+  camera.position.x = t * -0.0002;
+  camera.rotation.y = t * -0.0002;
+}
+document.body.onscroll = moveCamera;
+moveCamera();
+
+
 let frame = 0;
 
 function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
   addStar();
+   ballgq.rotation.x += 0.005;
+  ballgq.rotation.y += 0.0075;
+  ballgq.rotation.z += 0.005;
   frame += 0.01;
   for (
     let i = 0;
