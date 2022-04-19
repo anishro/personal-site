@@ -122,7 +122,7 @@ scene.add(backlight);
 
 function addStar() {
   const geometry = new THREE.SphereGeometry(0.25, 24, 24);
-  const material = new THREE.MeshStandardMaterial({ color: 0x2B65EC });
+  const material = new THREE.MeshStandardMaterial({ color: 0x2b65ec });
   const star = new THREE.Mesh(geometry, material);
 
   const [x, y, z] = Array(3)
@@ -132,10 +132,10 @@ function addStar() {
   star.position.set(x, y, z);
   scene.add(star);
 }
-
+const ngq = new THREE.TextureLoader().load("Mesh.png");
 const ballgq = new THREE.Mesh(
-  new RoundedBoxGeometry(4, 4, 4, 2, 1),
-  new THREE.MeshBasicMaterial({ color: 0x0ff00 })
+  new RoundedBoxGeometry(4, 4, 4, 1, 0.2),
+  new THREE.MeshBasicMaterial({ map: ngq, wireframe: false })
 );
 
 scene.add(ballgq);
@@ -163,14 +163,13 @@ function moveCamera() {
 document.body.onscroll = moveCamera;
 moveCamera();
 
-
 let frame = 0;
 
 function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
   addStar();
-   ballgq.rotation.x += 0.005;
+  ballgq.rotation.x += 0.005;
   ballgq.rotation.y += 0.0075;
   ballgq.rotation.z += 0.005;
   frame += 0.01;
